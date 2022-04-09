@@ -18,7 +18,10 @@ if not is_docker():
 DEBUG = bool(strtobool(os.getenv("DEBUG", "False")))
 
 # Download Paths
-ROOT_PATH = "/download/zspotify_music/"
+ROOT_PATH = os.getenv("ROOT_PATH", "/download/zspotify_music")
+if not os.path.exists(ROOT_PATH):
+    os.makedirs(ROOT_PATH)
+
 ROOT_PODCAST_PATH = "zspotify_podcasts/" # TODO: Is this right?
 
 SKIP_EXISTING_FILES = bool(strtobool(os.getenv("SKIP_EXISTING_FILES", "True")))

@@ -10,7 +10,6 @@ import shutil
 from getpass import getpass
 from librespot.core import Session
 from librespot.audio.decoders import AudioQuality
-from loguru import logger
 import load_env as env
 
 
@@ -22,6 +21,7 @@ class Client:
 
     def __init__(self):
         self._login()
+        self._update_user_info()
 
     # TODO: Pull in username and password from another method
     # Via Web Server possibly?
@@ -45,12 +45,14 @@ class Client:
                 return
             except RuntimeError:
                 pass
+
+    def _update_user_info(self):
         self.is_premium = bool((self._session.get_user_attribute("type") == "premium") or env.FORCE_PREMIUM)
         if self.is_premium:
             # logger.info("Logged into Premium Account - Using Very High Quality")
             self.quality = AudioQuality.VERY_HIGH
         # else:
-            # logger.info("Logged into Free Account - Using High Quality")
+        # logger.info("Logged into Free Account - Using High Quality")
 
     def session(self):
         """ Returns Client Session """

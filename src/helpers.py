@@ -40,10 +40,11 @@ def wait(seconds: int = 3):
 
 def sanitize_data(value):
     """ Returns given string with problematic removed """
-    sanitize = ["\\", "/", ":", "*", "?", "'", "<", ">", '"']
+    sanitize = ["\\", "/", ":", "*", "?", "'", "<", ">", '"', "|", "-"]
+    output = value
     for i in sanitize:
-        value = value.replace(i, "")
-    return value.replace("|", "-")
+        output = output.replace(i, "")
+    return value
 
 
 def split_input(selection):
@@ -185,3 +186,10 @@ def regex_input_for_urls(search_input):
 
     return track_id_str, album_id_str, playlist_id_str, episode_id_str, show_id_str, artist_id_str
 
+
+def print_artist_list(artist_list: list[dict], start_index=0):
+    print("###  ARTIST  ###")
+    for artist in artist_list:
+        print(f"{start_index}. {artist['name']} | {'/'.join(artist['genres'])} | {artist['followers']['total']}")
+        start_index += 1
+    print("\n")
