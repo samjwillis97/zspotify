@@ -23,12 +23,14 @@ ROOT_PODCAST_PATH = "zspotify_podcasts/" # TODO: Is this right?
 
 SKIP_EXISTING_FILES = bool(strtobool(os.getenv("SKIP_EXISTING_FILES", "True")))
 
-# mp3 or ogg 
-MUSIC_FORMAT = os.getenv('MUSIC_FORMAT', "mp3")
-
 # set to True if not detecting your premium account automaticalllyg
 FORCE_PREMIUM = bool(strtobool(os.getenv("FORCE_PREMIUM", "False")))
 RAW_AUDIO_AS_IS = bool(strtobool(os.getenv('RAW_AUDIO_AS_IS', "False")))
+
+# mp3 or ogg 
+MUSIC_FORMAT = os.getenv('MUSIC_FORMAT', "mp3")
+if RAW_AUDIO_AS_IS:
+    MUSIC_FORMAT = "wav"
 
 # This is how many seconds ZSpotify waits between downloading tracks so
 # spotify doesn't get out the ban hammer

@@ -1,24 +1,30 @@
+"""
+Authentication
+This file containts methods to connect, authenticate and get session tokens
+from Spotify.
+
+"""
+
 import os
 import shutil
 from getpass import getpass
 from librespot.core import Session
 from librespot.audio.decoders import AudioQuality
-import load_env as env
 from loguru import logger
+import load_env as env
+
 
 class Client:
-    _session = None
-    is_premium = False
-    quality = AudioQuality.HIGH
+    """ Client Authenticated by Spotify  """
+    _session: Session  = None
+    is_premium: bool = False
+    quality: AudioQuality = AudioQuality.HIGH
 
     def __init__(self):
         self._login()
 
-    def session(self):
-        """ Returns Client Session """
-        return self._session
-
     # TODO: Pull in username and password from another method
+    # Via Web Server possibly?
     def _login(self):
         """ Authenticates with Spotify and saves credentials to a file """
         if os.path.isfile("/config/credentials.json"):
@@ -45,3 +51,12 @@ class Client:
             self.quality = AudioQuality.VERY_HIGH
         # else:
             # logger.info("Logged into Free Account - Using High Quality")
+
+    def session(self):
+        """ Returns Client Session """
+        return self._session
+
+    def user_read_email_token(self):
+        """ Returns the 'user-read-email' token for the client """
+        return self._session.tokens().get("user-read-email")
+    
